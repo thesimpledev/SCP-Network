@@ -50,3 +50,23 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     flex-grow: 1;
 }
+
+.post-it {
+    position: absolute;
+    top: 120px;
+    left: calc(50% + 420px);
+    width: 150px;
+    height: 150px;
+    background-color: #FFEB3B;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    transform: rotate(-45deg);
+    font-size: 12px;
+    line-height: 1.5;
+    z-index: 10; 
+}
+
+.post-it p {
+    margin: 0;
+    color: black; 
+}
