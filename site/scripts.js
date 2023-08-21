@@ -72,7 +72,7 @@ terminalInput.addEventListener('keydown', async function(e) {
         // Handle the username input
         if (loginState === 'username') {
             if (terminalInput.value === FAUX_USERNAME) {
-                accumulatedInput = terminalInput.value;  // Store the username for later use
+                accumulatedInput = ""
                 terminalInput.value = '';
                 document.querySelector('.prompt').textContent = 'Password:';
                 loginState = 'password';
