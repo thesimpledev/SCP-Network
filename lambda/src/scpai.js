@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 const {getSecret} = require('./util');
+const CHAT_MODEL = "gpt-4"; //"gpt-3.5-turbo-16k"
 
 const aiCall = async (body) => {
     let aikey = await getSecret('openaikey');
@@ -28,7 +29,7 @@ const aiCall = async (body) => {
     }
 
     const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo-16k",
+        model: CHAT_MODEL,
         messages: messages
     });
 
