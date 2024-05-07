@@ -5,7 +5,7 @@ aws s3 sync $s3DirectoryPath s3://securecontainprotect.network --delete
 # Lamnda Deployment Script
 $deployFile = "lambdadeploy.zip";
 $deployFunction = "scpnetwork";
-$s3Bucklet = "deploy.thesimpledev.com";
+$s3Bucklet = "deploy-thesimpledev-com-sdjk498f6vxuy";
 npm install;
 Start-Process -NoNewWindow -FilePath "npx" -ArgumentList "esbuild ./lambda/src/index.js --bundle --minify --platform=node --target=node16 --outfile=./lambda/dist/index.js" -Wait
 Compress-Archive -Path "lambda\dist\*" -DestinationPath "lambdadeploy.zip" -Force;
