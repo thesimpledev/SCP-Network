@@ -36,9 +36,9 @@ jobs:
           invalidationBatch=$(jq -n --arg callerReference $(date -u +"%Y-%m-%dT%H:%M:%SZ") --argjson items '["/*"]' '{"Paths": {"Quantity": 1, "Items": $items}, "CallerReference": $callerReference}')
           aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --invalidation-batch "$invalidationBatch"
 
-          - name: Build Lambda
-          run: |
-            npx esbuild ./lambda/src/index.js --bundle --minify --platform=node --target=node16 --outfile=./lambda/dist/index.js
+      - name: Build Lambda
+        run: |
+          npx esbuild ./lambda/src/index.js --bundle --minify --platform=node --target=node16 --outfile=./lambda/dist/index.js
 
       - name: Compress Lambda Files
         run: |
