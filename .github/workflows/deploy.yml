@@ -1,0 +1,50 @@
+name: AWS Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli npm
+          sudo npm install -g n
+          sudo n lts
+          npm install
+
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.S3_BUCKET_REGION }}
+
+      - name: Sync Frontend to S3
+        run: aws s3 sync public/ s3://${{ secrets.S3_BUCKET }} --delete
+
+      - name: Create CloudFront invalidation
+        run: |
+          invalidationBatch=$(jq -n --arg callerReference $(date -u +"%Y-%m-%dT%H:%M:%SZ") --argjson items '["/*"]' '{"Paths": {"Quantity": 1, "Items": $items}, "CallerReference": $callerReference}')
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --invalidation-batch "$invalidationBatch"
+
+          - name: Build Lambda
+          run: |
+            npx esbuild ./lambda/src/index.js --bundle --minify --platform=node --target=node16 --outfile=./lambda/dist/index.js
+
+      - name: Compress Lambda Files
+        run: |
+          zip -r lambdadeploy.zip lambda/dist/*
+
+      - name: Deploy Lambda
+        run: |
+          aws s3 cp lambdadeploy.zip s3://${{ secrets.S3_DEPLOY_BUCKET }}/lambdadeploy.zip
+          aws lambda update-function-code --function-name ${{ secrets.AWS_LAMBDA_FUNCTION }} --s3-bucket ${{ secrets.S3_DEPLOY_BUCKET }} --s3-key lambdadeploy.zip
