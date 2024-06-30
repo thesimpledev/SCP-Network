@@ -12,3 +12,4 @@ Compress-Archive -Path "lambda\dist\*" -DestinationPath "lambdadeploy.zip" -Forc
 aws  s3 cp $deployFile s3://$($s3Bucklet)/$($deployFile);
 aws lambda  update-function-code --function-name $($deployFunction) --s3-bucket $s3Bucklet --s3-key $deployFile | Out-Null;
 Write-Host "Deployed $($deployFunction) from $($deployFile)"
+

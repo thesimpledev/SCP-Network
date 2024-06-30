@@ -29,7 +29,7 @@ jobs:
           aws configure set default.region ${{ secrets.S3_BUCKET_REGION }}
 
       - name: Sync Frontend to S3
-        run: aws s3 sync public/ s3://${{ secrets.S3_BUCKET }} --delete
+        run: aws s3 sync site/ s3://${{ secrets.S3_BUCKET }} --delete
 
       - name: Create CloudFront invalidation
         run: |
