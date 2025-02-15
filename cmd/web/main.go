@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
 )
 
@@ -33,8 +35,21 @@ func (r *application) OnMount(ctx app.Context) {
 	r.outputLines = []string{}
 }
 
-func (h *application) Render() app.UI {
-	return app.H1().Text("Hello, World! How are you doing today?")
+func (r *application) Render() app.UI {
+	return app.Div().Class("terminal-container").Body(
+		app.Div().Class("terminal-header").Text("SCP Foundation Terminal"),
+		app.Div().Class("terminal-content").Body(
+			r.renderTerminalScreen(),
+		),
+		app.Div().Class("post-it").Body(
+			app.P().Text(fmt.Sprintf("Username: %s", r.correctUserName)),
+			app.P().Text(fmt.Sprintf("Password: %s", r.correctPassword)),
+		),
+	)
+}
+
+func (r *Root) renderTerminalScreen() app.UI {
+
 }
 
 func main() {
