@@ -1,0 +1,32 @@
+name: AWS Deploy
+
+on:
+  push:
+    branches:
+      - go-wasm
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y npm
+          sudo npm install -g n
+          sudo n lts
+          npm install
+
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.S3_BUCKET_REGION }}
+
+      - name: Sync Frontend to S3
+        run: aws s3 sync site/ s3://${{ secrets.S3_TEST_BUCKET }} --delete
