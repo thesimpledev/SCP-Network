@@ -40,7 +40,7 @@ func (r *application) OnMount(ctx app.Context) {
 
 // Render defines how to draw the component
 func (r *application) Render() app.UI {
-	return app.Div().Class("terminal-container").Body(
+	return app.Div().Class("terminal").Body(
 		app.Div().Class("terminal-header").Text("SCP Foundation Terminal"),
 		app.Div().Class("terminal-content").Body(
 			r.renderTerminalScreen(),
