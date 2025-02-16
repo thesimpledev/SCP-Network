@@ -65,12 +65,11 @@ func (r *application) renderTerminalScreen() app.UI {
 }
 
 func (r *application) renderUserNamePrompt() app.UI {
-	return app.Div().Class("input-line").Body(
-		app.Div().Class("output").Body(
-			app.Range(r.outputLines).Slice(func(i int) app.UI {
-				return app.P().Text(r.outputLines[i])
-			}),
-		),
+	return app.Div().Class("output").Body(
+		app.Range(r.outputLines).Slice(func(i int) app.UI {
+			return app.P().Text(r.outputLines[i])
+		}),
+		app.Div().Class("input-line").Body(),
 		app.P().Text("Username:"),
 		app.Input().
 			Class("terminal-input").
