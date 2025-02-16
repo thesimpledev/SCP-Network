@@ -65,9 +65,8 @@ func (r *application) renderTerminalScreen() app.UI {
 }
 
 func (r *application) renderUserNamePrompt() app.UI {
-	return app.Div().Body(
-		// Print any output lines (e.g., errors)
-		app.Div().Body(
+	return app.Div().Class("input-line").Body(
+		app.Div().Class("output").Body(
 			app.Range(r.outputLines).Slice(func(i int) app.UI {
 				return app.P().Text(r.outputLines[i])
 			}),
