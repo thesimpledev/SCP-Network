@@ -1,6 +1,6 @@
-const SCPAI = require("./scpai");
+import { aiCall } from "./scpai.js";
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
     console.log("--------------event-----------------");
     console.log(event);
     console.log("--------------end-----------------");
@@ -26,7 +26,7 @@ exports.handler = async (event) => {
                 body: JSON.stringify({message: "You can use POST, GET or OPTIONS"})
             };
         } else if (event.httpMethod == "POST") {
-            const aiResponse = await SCPAI.aiCall(JSON.parse(event.body));
+            const aiResponse = await aiCall(JSON.parse(event.body));
             return {
                 statusCode: 200,
                 headers: HEADERS,

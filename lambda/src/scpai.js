@@ -1,8 +1,8 @@
 import OpenAI from 'openai';
-const {getSecret} = require('./util');
+import { getSecret } from './util.js';
 const CHAT_MODEL = "gpt-4"; //"gpt-3.5-turbo-16k"
 
-const aiCall = async (body) => {
+export const aiCall = async (body) => {
     let aikey = await getSecret('openaikey');
     const openai = new OpenAI({
         apiKey: aikey,
@@ -39,7 +39,3 @@ const aiCall = async (body) => {
     const response = JSON.stringify({ message: responseMessage });
     return response;
 };
-
-
-
-module.exports = { aiCall };
