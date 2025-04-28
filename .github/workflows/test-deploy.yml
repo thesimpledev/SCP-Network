@@ -1,0 +1,32 @@
+name: AWS Deploy
+
+on:
+  push:
+    branches:
+      - go-wasm
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24'
+
+      - name: Build WASM
+        run: GOOS=js GOARCH=wasm go build -o dist/main.wasm ./cmd/web
+
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.S3_BUCKET_REGION }}
+
+      - name: Sync Frontend to S3
+        run: aws s3 sync dist/ s3://${{ secrets.S3_TEST_BUCKET }} --delete
