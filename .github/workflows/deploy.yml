@@ -47,5 +47,4 @@ jobs:
 
       - name: Deploy Lambda
         run: |
-          aws s3 cp lambdadeploy.zip s3://${{ secrets.S3_DEPLOY_BUCKET }}/lambdadeploy.zip
-          aws lambda update-function-code --function-name ${{ secrets.AWS_LAMBDA_FUNCTION }} --s3-bucket ${{ secrets.S3_DEPLOY_BUCKET }} --s3-key lambdadeploy.zip
+          aws lambda update-function-code --function-name ${{ secrets.AWS_LAMBDA_FUNCTION }} --zip-file fileb://lambdadeploy.zip
