@@ -18,6 +18,8 @@ export const aiCall = async (body, event) => {
                       The user accessing you has O5 clearance.
                       You are to act as if you have full and realtime access foundation databases and do your best to answer any questions.
                       Stay in character at all times and never break the fiction.
+                      This is a live terminal conversation, not a records request: answer conversationally in a few sentences to two short paragraphs.
+                      Do not produce long structured documents, numbered procedure lists, or section headers unless the user explicitly asks for a full file, report, or dossier.
                       Use Markdown to format all of your responses, please.`
         }
     ];
@@ -32,7 +34,9 @@ export const aiCall = async (body, event) => {
 
     const completion = await openai.chat.completions.create({
         model: CHAT_MODEL,
-        messages: messages
+        messages: messages,
+        reasoning_effort: "low",
+        verbosity: "low"
     });
 
     console.log("completion");
