@@ -1,4 +1,13 @@
+const DEV_ART = String.raw`
+ _____  _  _  ___    ___  ___  __  __  ___  _     ___    ___   ___ __   __
+|_   _|| || || __|  / __||_ _||  \/  || _ \| |   | __|  |   \ | __|\ \ / /
+  | |  | __ || _|   \__ \ | | | |\/| ||  _/| |__ | _|   | |) || _|  \ V /
+  |_|  |_||_||___|  |___/|___||_|  |_||_|  |____||___|  |___/ |___|  \_/
+`;
+
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('%c' + DEV_ART + '\nThis terminal was built by The Simple Dev — https://thesimpledev.com',
+        'color: #00FF00; background: #000; font-family: monospace;');
     localStorage.clear();
     const terminalInput = document.querySelector('.terminal-input');
     const outputDiv = document.querySelector('.output');
@@ -60,13 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function credits() {
-        const art = String.raw`
- _____  _  _  ___    ___  ___  __  __  ___  _     ___    ___   ___ __   __
-|_   _|| || || __|  / __||_ _||  \/  || _ \| |   | __|  |   \ | __|\ \ / /
-  | |  | __ || _|   \__ \ | | | |\/| ||  _/| |__ | _|   | |) || _|  \ V /
-  |_|  |_||_||___|  |___/|___||_|  |_||_|  |____||___|  |___/ |___|  \_/
-`;
-        appendOutput(`<pre class="credits-art">${art}</pre>` +
+        appendOutput(`<pre class="credits-art">${DEV_ART}</pre>` +
             `<p>This terminal was built by The Simple Dev — <a href="https://thesimpledev.com" target="_blank" rel="noopener">https://thesimpledev.com</a></p>`);
     }
 
