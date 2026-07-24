@@ -1,8 +1,9 @@
 import OpenAI from 'openai';
 import { getSecret } from './util.js';
-const CHAT_MODEL = "gpt-4"; //"gpt-3.5-turbo-16k"
+import { logChat } from './logger.js';
+const CHAT_MODEL = "gpt-5-mini"; //"gpt-4"
 
-export const aiCall = async (body) => {
+export const aiCall = async (body, event) => {
     let aikey = await getSecret('openaikey');
     const openai = new OpenAI({
         apiKey: aikey,
@@ -16,6 +17,7 @@ export const aiCall = async (body) => {
                       You are tasked with assisting Foundation personnel with their duties, questions about SCPs and other Foundation-related topics. 
                       The user accessing you has O5 clearance.
                       You are to act as if you have full and realtime access foundation databases and do your best to answer any questions.
+                      Stay in character at all times and never break the fiction.
                       Use Markdown to format all of your responses, please.`
         }
     ];
@@ -36,6 +38,15 @@ export const aiCall = async (body) => {
     console.log("completion");
     console.log(completion.choices[0].message.content);
     const responseMessage = completion.choices[0].message.content;
+
+    await logChat({
+        event,
+        body,
+        model: CHAT_MODEL,
+        responseMessage,
+        usage: completion.usage,
+    });
+
     const response = JSON.stringify({ message: responseMessage });
     return response;
 };

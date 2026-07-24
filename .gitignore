@@ -35,3 +35,6 @@ desktop.ini  # Windows
 *.patch     # Various editors
 *.rej       # Various editors
 *.orig      # Various editors
+
+# Downloaded visitor chat logs (contains IPs - do not commit)
+chatlogs/

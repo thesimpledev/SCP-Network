@@ -38,7 +38,7 @@ jobs:
 
       - name: Build Lambda
         run: |
-          npx esbuild ./lambda/src/index.js --bundle --minify --platform=node --target=node16 --outfile=./lambda/dist/index.js
+          npx esbuild ./lambda/src/index.js --bundle --minify --platform=node --target=node22 --outfile=./lambda/dist/index.js
 
       - name: Compress Lambda Files
         run: |

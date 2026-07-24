@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.395.0",
+    "@libsql/client": "^0.17.4",
     "openai": "^4.0.1"
   }
 }

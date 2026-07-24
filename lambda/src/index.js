@@ -26,7 +26,7 @@ export const handler = async (event) => {
                 body: JSON.stringify({message: "You can use POST, GET or OPTIONS"})
             };
         } else if (event.httpMethod == "POST") {
-            const aiResponse = await aiCall(JSON.parse(event.body));
+            const aiResponse = await aiCall(JSON.parse(event.body), event);
             return {
                 statusCode: 200,
                 headers: HEADERS,
