@@ -47,10 +47,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Append to the output area and keep it scrolled to the newest line
+    function appendOutput(html) {
+        outputDiv.innerHTML += html;
+        outputDiv.scrollTop = outputDiv.scrollHeight;
+    }
+
     function clear() {
         outputDiv.innerHTML = '';
         terminalInput.value = '';
         accumulatedInput = '';
+    }
+
+    function credits() {
+        const art = String.raw`
+ _____  _  _  ___    ___  ___  __  __  ___  _     ___    ___   ___ __   __
+|_   _|| || || __|  / __||_ _||  \/  || _ \| |   | __|  |   \ | __|\ \ / /
+  | |  | __ || _|   \__ \ | | | |\/| ||  _/| |__ | _|   | |) || _|  \ V /
+  |_|  |_||_||___|  |___/|___||_|  |_||_|  |____||___|  |___/ |___|  \_/
+`;
+        appendOutput(`<pre class="credits-art">${art}</pre>` +
+            `<p>This terminal was built by The Simple Dev — <a href="https://thesimpledev.com" target="_blank" rel="noopener">https://thesimpledev.com</a></p>`);
     }
 
     // If you want to add more commands in the future, you'd:
@@ -58,7 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Add its name and corresponding function to this object.
     const commandFunctions = {
         clear: clear,
-        ls: ls
+        ls: ls,
+        credits: credits
         // anotherCommand: anotherCommandFunction
     };
 
@@ -78,20 +96,20 @@ terminalInput.addEventListener('keydown', async function(e) {
                 loginState = 'password';
             } else {
                 terminalInput.value = '';
-                outputDiv.innerHTML += `<p>Error: Incorrect username. Try again.</p>`;
+                appendOutput(`<p>Error: Incorrect username. Try again.</p>`);
             }
 
         // Handle the password input
         } else if (loginState === 'password') {
             if (terminalInput.value === FAUX_PASSWORD) {
                 terminalInput.value = '';
-                outputDiv.innerHTML += `<p>Welcome ${accumulatedInput}!</p>`;
+                appendOutput(`<p>Welcome ${accumulatedInput}!</p>`);
                 document.querySelector('.prompt').textContent = 'scp>';
                 loginState = 'authenticated';
             } else {
                 terminalInput.value = '';
                 accumulatedInput = '';  // Clear the previously stored username
-                outputDiv.innerHTML += `<p>Error: Incorrect password. Try again.</p>`;
+                appendOutput(`<p>Error: Incorrect password. Try again.</p>`);
                 document.querySelector('.prompt').textContent = 'Username:';
                 loginState = 'username';
             }
@@ -99,18 +117,22 @@ terminalInput.addEventListener('keydown', async function(e) {
         // Handle command input (once authenticated)
         } else if (loginState === 'authenticated') {
             accumulatedInput += terminalInput.value;
+
+            // Run custom commands first so they never enter the chat history
+            const command = accumulatedInput.trim().toLowerCase();
+            if (commandFunctions[command]) {
+                terminalInput.value = '';
+                accumulatedInput = '';
+                commandFunctions[command]();
+                return;  // Exit early, don't send the command to the server
+            }
+
              // Store user input in localStorage
             let conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
             conversation.push({ type: 'user', message: accumulatedInput });
             localStorage.setItem('conversation', JSON.stringify(conversation));
-            
-            // Check if the command exists in our custom commands
-            if (commandFunctions[accumulatedInput.trim().toLowerCase()]) {
-                commandFunctions[accumulatedInput.trim().toLowerCase()]();
-                return;  // Exit early, don't send the command to the server
-            }
-    
-            outputDiv.innerHTML += `<p>scp&gt; ${marked.parse(accumulatedInput).replace(/<p>|<\/p>/g, '')}</p>`;
+
+            appendOutput(`<p>scp&gt; ${marked.parse(accumulatedInput).replace(/<p>|<\/p>/g, '')}</p>`);
             
             const loadingInterval = startLoadingAnimation();
             const serverResponse = await sendConversationToServer();
@@ -119,15 +141,10 @@ terminalInput.addEventListener('keydown', async function(e) {
             terminalInput.value = '';
     
             if (serverResponse.error) {
-                outputDiv.innerHTML += `<p>Error: ${serverResponse.error}</p>`;
-                
-                // Store error response in localStorage
-                conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
-                conversation.push({ type: 'assistant', message: `Error: ${serverResponse.error}` });
-                localStorage.setItem('conversation', JSON.stringify(conversation));
-    
+                appendOutput(`<p>Error: ${serverResponse.error}</p>`);
+
             } else {
-                outputDiv.innerHTML += marked.parse(serverResponse.message);
+                appendOutput(marked.parse(serverResponse.message));
     
                 // Store server response in localStorage
                 conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
@@ -142,7 +159,7 @@ terminalInput.addEventListener('keydown', async function(e) {
 
     
 
-    async function ls() {
+    function ls() {
         const mockFiles = [
             'file1.txt',
             'file2.log',
@@ -153,8 +170,8 @@ terminalInput.addEventListener('keydown', async function(e) {
             'folder2/',
             'folder3/'
         ];
-    
+
         const output = mockFiles.join('    '); // Files and folders are separated by spaces for presentation
-        await printToScreen(`<p>scp&gt; ${output}</p>`);
+        appendOutput(`<p>scp&gt; ${output}</p>`);
     }
 });
