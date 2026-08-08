@@ -1,0 +1,72 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    background-color: #000;
+    color: #00FF00;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #00FF00;
+}
+
+.terminal {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+    max-width: 800px;
+    margin: 50px auto;
+    border: 2px solid #00FF00;
+}
+
+.terminal-header {
+    background-color: #00FF00;
+    color: #000;
+    padding: 5px 10px;
+    text-align: center;
+}
+
+.terminal-content {
+    padding: 10px;
+}
+
+.prompt {
+    display: inline-block;
+}
+
+.output p {
+    white-space: pre-wrap; /* Preserve white spaces */
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+}
+
+.terminal-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-family: inherit;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.post-it {
+    position: absolute;
+    top: 120px;
+    left: calc(50% + 420px);
+    width: 150px;
+    height: 150px;
+    background-color: #FFEB3B;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    transform: rotate(-45deg);
+    font-size: 12px;
+    line-height: 1.5;
+    z-index: 10; 
+}
+
+.post-it p {
+    margin: 0;
+    color: black; 
+}

@@ -6,7 +6,7 @@ package-lock.json
 .npx/
 
 # Build output
-dist/
+main.wasm
 build/
 
 # AWS Lambda packaged deployment
