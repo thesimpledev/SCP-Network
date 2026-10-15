@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import { getSecret } from './util.js';
 import { logChat } from './logger.js';
-const CHAT_MODEL = "gpt-5-mini"; //"gpt-4"
+const CHAT_MODEL = "gpt-5-mini";
 
 export const aiCall = async (body, event) => {
     let aikey = await getSecret('openaikey');
