@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild lambda/src/index.js --bundle --minify --platform=node --target=node22 --format=cjs --outfile=lambda/dist/index.js",
+    "test": "node --test lambda/src/"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.395.0",
-    "@libsql/client": "^0.17.4",
-    "openai": "^4.0.1"
+    "@aws-sdk/client-secrets-manager": "3.1094.0",
+    "@libsql/client": "0.17.4",
+    "openai": "4.104.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
   }
 }
