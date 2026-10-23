@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "esbuild lambda/src/index.js --bundle --minify --platform=node --target=node22 --format=cjs --outfile=lambda/dist/index.js",
-    "test": "node --test lambda/src/"
+    "test": "node --test \"lambda/src/**/*.test.js\" \"site/**/*.test.js\""
   },
   "author": "",
   "license": "ISC",

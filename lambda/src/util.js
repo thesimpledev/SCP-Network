@@ -14,5 +14,3 @@ export const getSecret = async (secretName) => {
   );
   return response.SecretString;
 }
-
-// Your code goes here

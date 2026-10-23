@@ -39,8 +39,6 @@ export const aiCall = async (body, event) => {
         verbosity: "low"
     });
 
-    console.log("completion");
-    console.log(completion.choices[0].message.content);
     const responseMessage = completion.choices[0].message.content;
 
     await logChat({

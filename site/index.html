@@ -3,19 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://*.googletagmanager.com; connect-src 'self' https://3enuvpqp3l.execute-api.us-east-2.amazonaws.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; img-src 'self' https://*.google-analytics.com https://*.googletagmanager.com; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
     <title>SCP Foundation Terminal</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EEYQDVJJ11"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EEYQDVJJ11');
-</script>
+<script src="gtag.js"></script>
 
 <body>
     <div class="terminal">
@@ -28,7 +23,8 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@18.1.1/lib/marked.umd.js" integrity="sha384-rATToyt6602Jnq8c7w8HZwmyOUgPL7mzxX01FBWoV48ns/EgkakGozpES+PnaYOI" crossorigin="anonymous"></script>
+    <script src="render.js"></script>
     <script src="scripts.js"></script>
     <div class="post-it">
         <p><strong>Username:</strong> </p>
