@@ -135,7 +135,7 @@ terminalInput.addEventListener('keydown', async function(e) {
             conversation.push({ type: 'user', message: accumulatedInput });
             localStorage.setItem('conversation', JSON.stringify(conversation));
 
-            appendOutput(`<p>scp&gt; ${marked.parse(accumulatedInput).replace(/<p>|<\/p>/g, '')}</p>`);
+            appendOutput(renderUserLine(accumulatedInput));
             
             const loadingInterval = startLoadingAnimation();
             const serverResponse = await sendConversationToServer();
@@ -147,7 +147,7 @@ terminalInput.addEventListener('keydown', async function(e) {
                 appendOutput(`<p>Error: ${serverResponse.error}</p>`);
 
             } else {
-                appendOutput(marked.parse(serverResponse.message));
+                appendOutput(renderAssistant(serverResponse.message));
     
                 // Store server response in localStorage
                 conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
